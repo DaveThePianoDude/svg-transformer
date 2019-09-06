@@ -8,7 +8,7 @@ var app = express();
 app.get('/', function (req, res) {
 
     var obj = parseSVG(d);
-    
+
     for (var item in obj)
     {
         for (var attr in obj[item])
@@ -18,7 +18,31 @@ app.get('/', function (req, res) {
         }
     }
 
-    res.send(obj);
+    var new_d = "";
+
+    for (var item in obj)
+    {
+        var ind = 0;
+        var attr_count = Object.keys(obj[item]).length;
+
+        for (var attr in obj[item])
+        {
+            var attr = obj[item][attr];
+
+            if(typeof attr == 'number' || (typeof attr == 'string' && attr.length == 1))
+              new_d += attr;
+
+            if(typeof attr == 'number' && ind < attr_count-1)
+            {
+              new_d += ",";
+            }
+            ind++;
+        }
+
+    }
+
+    //console.log(svgson.stringify(JSON.stringify(obj)));
+    res.send(new_d);
 
 });
 

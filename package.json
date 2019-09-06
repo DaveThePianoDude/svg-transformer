@@ -13,6 +13,7 @@
   "author": "David Holland",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "svgson-next": "^4.3.0"
   }
 }
