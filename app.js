@@ -17,6 +17,12 @@ app.get('/', function(req, res) {
   res.send('pong');
 });
 
+app.post('/parse', function(req, res) {
+
+  console.log('got to parse block');
+
+});
+
 app.post('/upload', function(req, res) {
 
    let sampleFile;
