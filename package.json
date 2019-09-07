@@ -15,6 +15,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "express-fileupload": "^1.1.5",
-    "svgson-next": "^4.3.0"
+    "svgson-next": "^4.3.0",
+    "xml2js": "^0.4.22"
   }
 }
