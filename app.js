@@ -1,51 +1,49 @@
-var parseSVG = require('svg-path-parser');
-
-var d='M93.799,36.732c0,2.347-1.903,4.252-4.251,4.252H78.207c-2.347,0-4.252-1.905-4.252-4.252l0,0c0-2.348,1.905-4.251,4.252-4.251h11.341C91.896,32.471,93.799,34.374,93.799,36.723L93.799,36.723z'
-
 var express = require('express');
+const fileUpload = require('express-fileupload');
 var app = express();
 
-app.get('/', function (req, res) {
+var parseSVG = require('svg-path-parser');
+var d='M93.799,36.732c0,2.347-1.903,4.252-4.251,4.252H78.207c-2.347,0-4.252-1.905-4.252-4.252l0,0c0-2.348,1.905-4.251,4.252-4.251h11.341C91.896,32.471,93.799,34.374,93.799,36.723L93.799,36.723z'
 
-    var obj = parseSVG(d);
+const PORT = 3000;
 
-    for (var item in obj)
-    {
-        for (var attr in obj[item])
-        {
-            if(typeof obj[item][attr] == 'number')
-                obj[item][attr] = .25 * obj[item][attr];
-        }
-    }
+app.use(fileUpload());
 
-    var new_d = "";
+app.use('/form', express.static(__dirname + '/index.html'));
 
-    for (var item in obj)
-    {
-        var ind = 0;
-        var attr_count = Object.keys(obj[item]).length;
+app.get('/', function(req, res) {
+  // do something here.
+  console.log('got here');
+  res.send('pong');
+});
 
-        for (var attr in obj[item])
-        {
-            var attr = obj[item][attr];
+app.post('/upload', function(req, res) {
 
-            if(typeof attr == 'number' || (typeof attr == 'string' && attr.length == 1))
-              new_d += attr;
+   let sampleFile;
+   let uploadPath;
 
-            if(typeof attr == 'number' && ind < attr_count-1)
-            {
-              new_d += ",";
-            }
-            ind++;
-        }
+   if (Object.keys(req.files).length == 0) {
+     res.status(400).send('No files were uploaded.');
+     return;
+   }
 
-    }
+   console.log('req.files >>>', req.files); // eslint-disable-line
 
-    //console.log(svgson.stringify(JSON.stringify(obj)));
-    res.send(new_d);
+   sampleFile = req.files.sampleFile;
+
+   uploadPath = __dirname + '/uploads/' + sampleFile.name;
+
+   sampleFile.mv(uploadPath, function(err) {
+     if (err) {
+       return res.status(500).send(err);
+     }
+
+     res.send('File uploaded to ' + uploadPath);
+   });
 
 });
 
-app.listen(3000, function () {
-  console.log('Example app listening on port 3000!');
+
+app.listen(PORT, function () {
+  console.log('Example app listening on port ', PORT);
 });
