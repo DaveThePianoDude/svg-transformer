@@ -29,7 +29,7 @@ app.post('/parse', function(req, res) {
 
   parser.parseString(xml_string, function(error, result) {
       if(error === null) {
-          console.log(result['svg']['path']);
+          console.log(result['svg']['path'][0]['ATTR']['d']);
       }
       else {
           console.log(error);
