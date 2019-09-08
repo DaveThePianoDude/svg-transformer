@@ -1,17 +1,20 @@
 var express = require('express');
-const fileUpload = require('express-fileupload');
+var bodyParser = require('body-parser');
 var app = express();
 
-const xml2js = require('xml2js');
+const PORT = 3000;
 const fs = require('fs');
+const xml2js = require('xml2js');
 const parser = new xml2js.Parser({ attrkey: "ATTR" });
+const fileUpload = require('express-fileupload');
 
 var parseSVG = require('svg-path-parser');
 var d='M93.799,36.732c0,2.347-1.903,4.252-4.251,4.252H78.207c-2.347,0-4.252-1.905-4.252-4.252l0,0c0-2.348,1.905-4.251,4.252-4.251h11.341C91.896,32.471,93.799,34.374,93.799,36.723L93.799,36.723z'
 
-const PORT = 3000;
-
+// Declare endpoints:
 app.use(fileUpload());
+
+app.use(bodyParser());
 
 app.use('/form', express.static(__dirname + '/index.html'));
 
@@ -21,23 +24,24 @@ app.get('/', function(req, res) {
   res.send('pong');
 });
 
-app.post('/parse', function(req, res) {
+app.post('/parse', function(req, res, next) {
 
-  // this example reads the file synchronously
-  // you can read it asynchronously also
+  console.log('scaleFactor'+req.body.scaleFactor);
+
+  // you can read the file asynchronously also
   let xml_string = fs.readFileSync(__dirname + '/uploads/data.svg', "utf8");
 
   parser.parseString(xml_string, function(error, result) {
       if(error === null) {
-          console.log(result['svg']['path'][0]['ATTR']['d']);
+          // Parse the SVG xml file and save it for later:
+          d = result['svg']['path'][0]['ATTR']['d'];
       }
       else {
           console.log(error);
       }
   });
 
-  console.log('got to parse block');
-
+  // Transform the SVG data: d --> new_d.
   var obj = parseSVG(d);
 
   for (var item in obj)
@@ -45,7 +49,7 @@ app.post('/parse', function(req, res) {
       for (var attr in obj[item])
       {
           if(typeof obj[item][attr] == 'number')
-              obj[item][attr] = .25 * obj[item][attr];
+              obj[item][attr] = Number(req.body.scaleFactor) * obj[item][attr];
       }
   }
 
@@ -71,6 +75,7 @@ app.post('/parse', function(req, res) {
       }
 
   }
+  console.log('new_d='+new_d)
 });
 
 app.post('/upload', function(req, res) {
