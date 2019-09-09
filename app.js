@@ -41,6 +41,8 @@ app.post('/parse', function(req, res, next) {
       }
   });
 
+  console.log('d='+d);
+
   // Transform the SVG data: d --> new_d.
   var obj = parseSVG(d);
 
@@ -49,7 +51,10 @@ app.post('/parse', function(req, res, next) {
       for (var attr in obj[item])
       {
           if(typeof obj[item][attr] == 'number')
-              obj[item][attr] = Number(req.body.scaleFactor) * obj[item][attr];
+          {
+            var num = Number(req.body.scaleFactor) * obj[item][attr];
+            obj[item][attr] = Number(parseFloat(num).toFixed(3));
+          }
       }
   }
 
@@ -73,9 +78,10 @@ app.post('/parse', function(req, res, next) {
           }
           ind++;
       }
-
   }
   console.log('new_d='+new_d)
+
+
 });
 
 app.post('/upload', function(req, res) {
