@@ -24,22 +24,7 @@ app.get('/', function(req, res) {
   res.send('pong');
 });
 
-app.post('/parse', function(req, res, next) {
-
-  console.log('scaleFactor'+req.body.scaleFactor);
-
-  // you can read the file asynchronously also
-  let xml_string = fs.readFileSync(__dirname + '/uploads/data.svg', "utf8");
-
-  parser.parseString(xml_string, function(error, result) {
-      if(error === null) {
-          // Parse the SVG xml file and save it for later:
-          d = result['svg']['path'][0]['ATTR']['d'];
-      }
-      else {
-          console.log(error);
-      }
-  });
+function transform(sf, d) {
 
   console.log('d='+d);
 
@@ -47,16 +32,12 @@ app.post('/parse', function(req, res, next) {
   var obj = parseSVG(d);
 
   for (var item in obj)
-  {
       for (var attr in obj[item])
-      {
           if(typeof obj[item][attr] == 'number')
           {
-            var num = Number(req.body.scaleFactor) * obj[item][attr];
+            var num = Number(sf) * obj[item][attr];
             obj[item][attr] = Number(parseFloat(num).toFixed(3));
           }
-      }
-  }
 
   var new_d = "";
 
@@ -73,15 +54,33 @@ app.post('/parse', function(req, res, next) {
             new_d += attr;
 
           if(typeof attr == 'number' && ind < attr_count-1)
-          {
             new_d += ",";
-          }
+
           ind++;
       }
   }
   console.log('new_d='+new_d)
 
+  return new_d;
+}
 
+app.post('/parse', function(req, res, next) {
+
+  console.log('scaleFactor'+req.body.scaleFactor);
+
+  // you can read the file asynchronously also
+  let xml_string = fs.readFileSync(__dirname + '/uploads/data.svg', "utf8");
+
+  parser.parseString(xml_string, function(error, result) {
+      if(error === null) {
+          // Parse the SVG xml file and save it for later:
+          var new_d = transform(req.body.scaleFactor, result['svg']['path'][0]['ATTR']['d']);
+          console.log(new_d);
+      }
+      else {
+          console.log(error);
+      }
+  });
 });
 
 app.post('/upload', function(req, res) {
@@ -97,7 +96,6 @@ app.post('/upload', function(req, res) {
    console.log('req.files >>>', req.files); // eslint-disable-line
 
    sampleFile = req.files.sampleFile;
-
    uploadPath = __dirname + '/uploads/' + sampleFile.name;
 
    sampleFile.mv(uploadPath, function(err) {
@@ -107,9 +105,7 @@ app.post('/upload', function(req, res) {
 
      res.send('File uploaded to ' + uploadPath);
    });
-
 });
-
 
 app.listen(PORT, function () {
   console.log('Example app listening on port ', PORT);
