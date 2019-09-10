@@ -4,8 +4,13 @@ var app = express();
 
 const PORT = 3000;
 const fs = require('fs');
+
+var parserXml2Json = require('xml2json');
+
 const xml2js = require('xml2js');
 const parser = new xml2js.Parser({ attrkey: "ATTR" });
+
+
 const fileUpload = require('express-fileupload');
 
 var parseSVG = require('svg-path-parser');
@@ -71,15 +76,41 @@ app.post('/parse', function(req, res, next) {
   // you can read the file asynchronously also
   let xml_string = fs.readFileSync(__dirname + '/uploads/data.svg', "utf8");
 
+  fs.readFile(__dirname + '/uploads/data.svg', function(error, xml_string) {
+    var json = JSON.parse(parserXml2Json.toJson(xml_string, {reversible: true}));
+
+    if(error === null) {
+        console.log("D=" + json['svg']['path']['d']);
+        // Parse the SVG xml file and save it for later:
+        var new_d = transform(req.body.scaleFactor, json['svg']['path']['d']);
+        console.log(new_d);
+        json['svg']['path']['d'] = new_d;
+
+        var stringified = JSON.stringify(json);
+        var xml = parserXml2Json.toXml(stringified);
+        fs.writeFile('new-data.svg', xml, function(err, data) {
+          if (err) {
+            console.log(err);
+          }
+          else {
+            console.log('updated!');
+          }
+        });
+    }
+    else {
+        console.log(error);
+    }
+  });
+
   parser.parseString(xml_string, function(error, result) {
-      if(error === null) {
+      //if(error === null) {
           // Parse the SVG xml file and save it for later:
-          var new_d = transform(req.body.scaleFactor, result['svg']['path'][0]['ATTR']['d']);
-          console.log(new_d);
-      }
-      else {
-          console.log(error);
-      }
+      //    var new_d = transform(req.body.scaleFactor, result['svg']['path'][0]['ATTR']['d']);
+      //    console.log(new_d);
+      //}
+      //else {
+      //    console.log(error);
+      //}
   });
 });
 
