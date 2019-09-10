@@ -16,5 +16,12 @@
 				<textarea name="scaleFactor" rows="1"></textarea>
 				<input type='submit' value='Parse SVG!' />
 		</form>
+		<form ref='downloadForm'
+			id='downloadForm'
+			action='/download'
+			method='get'
+			encType="multipart/form-data">
+				<input type='submit' value='Download new SVG file.' />
+		</form>
 	</body>
 </html>

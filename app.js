@@ -23,6 +23,11 @@ app.use(bodyParser());
 
 app.use('/form', express.static(__dirname + '/index.html'));
 
+app.get('/download', function(req, res){
+  const file = "new-data.svg";
+  res.download(file); // Set disposition and send it.
+});
+
 app.get('/', function(req, res) {
   // do something here.
   console.log('got here');
