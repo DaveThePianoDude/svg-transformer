@@ -10,7 +10,6 @@ var parserXml2Json = require('xml2json');
 const xml2js = require('xml2js');
 const parser = new xml2js.Parser({ attrkey: "ATTR" });
 
-
 const fileUpload = require('express-fileupload');
 
 var parseSVG = require('svg-path-parser');
@@ -32,6 +31,68 @@ app.get('/', function(req, res) {
   // do something here.
   console.log('got here');
   res.send('pong');
+});
+
+app.post('/parse', function(req, res, next) {
+
+  console.log('scaleFactor'+req.body.scaleFactor);
+
+  // you can read the file asynchronously also
+  let xml_string = fs.readFileSync(__dirname + '/uploads/data.svg', "utf8");
+
+  fs.readFile(__dirname + '/uploads/data.svg', function(error, xml_string) {
+    var json = JSON.parse(parserXml2Json.toJson(xml_string, {reversible: true}));
+
+    if(error === null) {
+        console.log("D=" + json['svg']['path']['g']['d']);
+        // Parse the SVG xml file and save it for later:
+        var new_d = transform(req.body.scaleFactor, json['svg']['path']['d']);
+        console.log(new_d);
+        json['svg']['path']['g']['d'] = new_d;
+        json['svg']['width'] = req.body.newWidth;
+        json['svg']['height'] = req.body.newHeight;
+        //json['svg']['viewBox'] = "0 0 " + req.body.newWidth + " " + req.body.newHeight;
+        //json['svg']['enable-background'] = "new 0 0 " + req.body.newWidth + " " + req.body.newHeight;
+
+        var stringified = JSON.stringify(json);
+        var xml = parserXml2Json.toXml(stringified);
+        fs.writeFile('new-data.svg', xml, function(err, data) {
+          if (err) {
+            console.log(err);
+          }
+          else {
+            console.log('updated!');
+          }
+        });
+    }
+    else {
+        console.log(error);
+    }
+  });
+});
+
+app.post('/upload', function(req, res) {
+
+   let sampleFile;
+   let uploadPath;
+
+   if (Object.keys(req.files).length == 0) {
+     res.status(400).send('No files were uploaded.');
+     return;
+   }
+
+   console.log('req.files >>>', req.files); // eslint-disable-line
+
+   sampleFile = req.files.sampleFile;
+   uploadPath = __dirname + '/uploads/' + sampleFile.name;
+
+   sampleFile.mv(uploadPath, function(err) {
+     if (err) {
+       return res.status(500).send(err);
+     }
+
+     res.send('File uploaded to ' + uploadPath);
+   });
 });
 
 function transform(sf, d) {
@@ -73,75 +134,6 @@ function transform(sf, d) {
 
   return new_d;
 }
-
-app.post('/parse', function(req, res, next) {
-
-  console.log('scaleFactor'+req.body.scaleFactor);
-
-  // you can read the file asynchronously also
-  let xml_string = fs.readFileSync(__dirname + '/uploads/data.svg', "utf8");
-
-  fs.readFile(__dirname + '/uploads/data.svg', function(error, xml_string) {
-    var json = JSON.parse(parserXml2Json.toJson(xml_string, {reversible: true}));
-
-    if(error === null) {
-        console.log("D=" + json['svg']['path']['d']);
-        // Parse the SVG xml file and save it for later:
-        var new_d = transform(req.body.scaleFactor, json['svg']['path']['d']);
-        console.log(new_d);
-        json['svg']['path']['d'] = new_d;
-
-        var stringified = JSON.stringify(json);
-        var xml = parserXml2Json.toXml(stringified);
-        fs.writeFile('new-data.svg', xml, function(err, data) {
-          if (err) {
-            console.log(err);
-          }
-          else {
-            console.log('updated!');
-          }
-        });
-    }
-    else {
-        console.log(error);
-    }
-  });
-
-  parser.parseString(xml_string, function(error, result) {
-      //if(error === null) {
-          // Parse the SVG xml file and save it for later:
-      //    var new_d = transform(req.body.scaleFactor, result['svg']['path'][0]['ATTR']['d']);
-      //    console.log(new_d);
-      //}
-      //else {
-      //    console.log(error);
-      //}
-  });
-});
-
-app.post('/upload', function(req, res) {
-
-   let sampleFile;
-   let uploadPath;
-
-   if (Object.keys(req.files).length == 0) {
-     res.status(400).send('No files were uploaded.');
-     return;
-   }
-
-   console.log('req.files >>>', req.files); // eslint-disable-line
-
-   sampleFile = req.files.sampleFile;
-   uploadPath = __dirname + '/uploads/' + sampleFile.name;
-
-   sampleFile.mv(uploadPath, function(err) {
-     if (err) {
-       return res.status(500).send(err);
-     }
-
-     res.send('File uploaded to ' + uploadPath);
-   });
-});
 
 app.listen(PORT, function () {
   console.log('Example app listening on port ', PORT);

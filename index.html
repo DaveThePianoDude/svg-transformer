@@ -6,15 +6,17 @@
 			method='post'
 			encType="multipart/form-data">
 				<input type="file" name="sampleFile" />
-				<input type='submit' value='Upload!' />
+				<input type='submit' value='Upload SVG.' />
 		</form>
 		<form ref='parseForm'
 			id='parseForm'
 			action='/parse'
 			method='post'
 			encType="multipart/form-data">
-				<textarea name="scaleFactor" rows="1"></textarea>
-				<input type='submit' value='Parse SVG!' />
+				Scale Factor:&nbsp;<textarea name="scaleFactor" rows="1"></textarea>
+				New Width:&nbsp;<textarea name="newWidth" rows="1"></textarea>
+				New Height:&nbsp;<textarea name="newHeight" rows="1"></textarea>
+				<input type='submit' value='Transform SVG.' />
 		</form>
 		<form ref='downloadForm'
 			id='downloadForm'

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 21.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="167.8px" height="73.4px" viewBox="0 0 167.8 73.4" style="enable-background:new 0 0 167.8 73.4;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:none;stroke:#000000;stroke-width:0.8504;}
+	.st1{fill:none;stroke:#000000;stroke-width:0.4252;}
+	.st2{fill:#231F20;}
+	.st3{font-family:'BookAntiqua';}
+	.st4{font-size:6px;}
+	.st5{fill:none;stroke:#00AEEF;stroke-width:0.5669;}
+	.st6{fill:none;stroke:#000000;stroke-width:1.9842;}
+	.st7{fill:none;stroke:#A72C32;stroke-width:1.4173;}
+</style>
+<symbol  id="LTDS_x5F_PT_x5F_Black_x5F_Bridge" viewBox="-3.9 -3.1 7.9 6.2">
+	<g>
+		<line class="st0" x1="-2.1" y1="-1.2" x2="2.1" y2="-1.2"/>
+		<line class="st1" x1="-3.8" y1="-2.9" x2="-2.3" y2="-1.4"/>
+		<g>
+			<line class="st1" x1="2.3" y1="-1.4" x2="3.8" y2="-2.9"/>
+		</g>
+		<line class="st1" x1="3.4" y1="-2.5" x2="1.8" y2="-1"/>
+		<line class="st1" x1="-3.5" y1="-2.6" x2="-1.9" y2="-1"/>
+	</g>
+	<g>
+		<line class="st0" x1="2.1" y1="1.2" x2="-2.1" y2="1.2"/>
+		<line class="st1" x1="3.8" y1="2.9" x2="2.3" y2="1.4"/>
+		<g>
+			<line class="st1" x1="-2.3" y1="1.4" x2="-3.8" y2="2.9"/>
+		</g>
+		<line class="st1" x1="-3.3" y1="2.5" x2="-1.8" y2="1"/>
+		<line class="st1" x1="3.5" y1="2.6" x2="1.9" y2="1"/>
+	</g>
+</symbol>
+<g>
+	<text transform="matrix(1 0 0 1 45.5975 29.8855)" class="st2 st3 st4">Shown with River and Road:</text>
+	<g>
+		<g>
+			<path class="st5" d="M74.6,33.9c0,0,4.8,0.4,5.5,2.6c0.7,2.2,1.8,6.8,4.2,8.9c2.3,2.1,7.7,2.4,10,3.2"/>
+			
+				<use xlink:href="#LTDS_x5F_PT_x5F_Black_x5F_Bridge"  width="7.9" height="6.2" x="-3.9" y="-3.1" transform="matrix(0.9972 -7.490000e-02 -7.490000e-02 -0.9972 81.7028 40.9059)" style="overflow:visible;"/>
+			<g>
+				<line class="st6" x1="56.4" y1="42.7" x2="111.4" y2="38.6"/>
+				<line class="st7" x1="56.4" y1="42.7" x2="111.4" y2="38.6"/>
+			</g>
+		</g>
+	</g>
+</g>
+</svg>

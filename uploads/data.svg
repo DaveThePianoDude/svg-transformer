@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 21.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="167.754px" height="73.446px" viewBox="0 0 167.754 73.446" enable-background="new 0 0 167.754 73.446"
-	 xml:space="preserve">
-
-	<path fill-rule="evenodd" clip-rule="evenodd" fill="none" stroke="#000000" stroke-width="1.1339" d="M93.799,36.723
-		c0,2.347-1.903,4.252-4.251,4.252H78.207c-2.347,0-4.252-1.905-4.252-4.252l0,0c0-2.348,1.905-4.251,4.252-4.251h11.341
-		C91.896,32.471,93.799,34.374,93.799,36.723L93.799,36.723z"/>
-
+	 width="167.8px" height="73.4px" viewBox="0 0 167.8 73.4" style="enable-background:new 0 0 167.8 73.4;" xml:space="preserve">
+<symbol  id="P00253" viewBox="-1.1 -1.6 2.3 3.1">
+	<g>
+		<rect x="-1.1" y="0.3" width="2.3" height="0.6"/>
+		<rect x="-0.3" y="-1.6" width="0.6" height="3.1"/>
+	</g>
+</symbol>
+<use xlink:href="#P00253"  width="2.3" height="3.1" id="XMLID_139_" x="-1.1" y="-1.6" transform="matrix(1 0 0 -1 83.8772 36.7231)" style="overflow:visible;"/>
 </svg>
