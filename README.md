@@ -10,3 +10,5 @@ This is commit comment three
 THis is commit comment four.
 
 Comment FIVE
+
+Comment SIX.
