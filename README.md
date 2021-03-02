@@ -11,6 +11,7 @@ THis is commit comment four.
 
 Comment FIVE
 
+<<<<<<< HEAD
 
 
 SIX
@@ -19,3 +20,10 @@ SIX
 SEVEN
 
 EIGHT
+Comment SIX.
+
+
+
+X
+
+Y
